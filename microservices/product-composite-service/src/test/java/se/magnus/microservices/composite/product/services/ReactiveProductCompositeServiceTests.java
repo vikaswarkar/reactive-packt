@@ -25,13 +25,14 @@ import se.magnus.util.exceptions.NotFoundException;
 
 import static java.util.Collections.singletonList;
 import static org.mockito.Mockito.when;
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.DEFINED_PORT;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.HttpStatus.UNPROCESSABLE_ENTITY;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;
 import static reactor.core.publisher.Mono.just;
 
-@SpringBootTest(webEnvironment=RANDOM_PORT,
+@SpringBootTest(webEnvironment=DEFINED_PORT,
 		classes = {ReactiveProductCompositeServiceApplication.class, TestSecurityConfig.class},
 		properties = {"eureka.client.enabled=false", "spring.main.allow-bean-definition-overriding=true"})
 @ExtendWith(SpringExtension.class)

@@ -2,6 +2,7 @@ package se.magnus.microservices.composite.product.services;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,8 @@ import se.magnus.api.core.recommendation.Recommendation;
 import se.magnus.api.core.review.ReactiveReviewService;
 import se.magnus.api.core.review.Review;
 
+import static reactor.core.publisher.Mono.just;
+
 @Component
 @Slf4j
 public class ReactiveProductCompositeIntegration
@@ -27,30 +30,29 @@ public class ReactiveProductCompositeIntegration
     private final ExceptionHelper exceptionHelper;
 
     private String productServiceUrl = "http://product/products";
-    private final String recommendationServiceUrl = "http://recommendation/recommendations?productId=";
-    private final String reviewServiceUrl = "http://review/reviews?productId=";
+    private String recommendationServiceUrl = "http://recommendation/recommendations?productId=";
+    private String reviewServiceUrl = "http://review/reviews?productId=";
 
 	@Autowired
     public ReactiveProductCompositeIntegration (
         WebClient.Builder webClientBuilder,
-		ExceptionHelper exceptionHelper
-//			,
-//        @Value("${app.product-service.host}") String productServiceHost,
-//        @Value("${app.product-service.port}") int    productServicePort,
-//
-//        @Value("${app.recommendation-service.host}") String recommendationServiceHost,
-//        @Value("${app.recommendation-service.port}") int    recommendationServicePort,
-//
-//        @Value("${app.review-service.host}") String reviewServiceHost,
-//        @Value("${app.review-service.port}") int    reviewServicePort
+		ExceptionHelper exceptionHelper,
+        @Value("${app.product-service.host}") String productServiceHost,
+        @Value("${app.product-service.port}") int    productServicePort,
+
+        @Value("${app.recommendation-service.host}") String recommendationServiceHost,
+        @Value("${app.recommendation-service.port}") int    recommendationServicePort,
+
+        @Value("${app.review-service.host}") String reviewServiceHost,
+        @Value("${app.review-service.port}") int    reviewServicePort
     ) {
 		this.webClientBuilder = webClientBuilder;
 //        this.webClient = webClientBuilder.build();
         this.exceptionHelper = exceptionHelper;
 
-//        productServiceUrl        = "http://" + productServiceHost + ":" + productServicePort + "/reactive/product/";
-//        recommendationServiceUrl = "http://" + recommendationServiceHost + ":" + recommendationServicePort + "/reactive/recommendation?productId=";
-//        reviewServiceUrl         = "http://" + reviewServiceHost + ":" + reviewServicePort + "/reactive/review?productId=";
+        productServiceUrl        = "http://" + productServiceHost + ":" + productServicePort + "/products/";
+        recommendationServiceUrl = "http://" + recommendationServiceHost + ":" + recommendationServicePort + "/recommendations?productId=";
+        reviewServiceUrl         = "http://" + reviewServiceHost + ":" + reviewServicePort + "/reviews?productId=";
     }
 
 	private WebClient getWebClient(){
@@ -63,9 +65,8 @@ public class ReactiveProductCompositeIntegration
 	@Override
 	public Mono<Product> createProduct(Product body) {
 		log.debug("Will post a new product to the URL {} ", this.productServiceUrl);
-
 		return getWebClient().post().uri(productServiceUrl)
-//				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
 				.body(Mono.just(body), Product.class)
 				.retrieve()
 				.bodyToMono(Product.class).log()
@@ -83,7 +84,6 @@ public class ReactiveProductCompositeIntegration
     
 	public Mono<Void> deleteProduct(int productId) {
 		String url = this.productServiceUrl + "/" + productId;
-		url = "http://localhost:62605/products/1";
 		log.debug("Will call delete api on {} ", url);
 		return getWebClient().delete().uri(url).retrieve().bodyToMono(Void.class).log()
 				.flatMap(resp->{

@@ -79,7 +79,7 @@ public class ReactiveProductCompositeServiceApplication {
 	}
 
 	@Bean
-	@LoadBalanced
+//	@LoadBalanced
 	public WebClient.Builder loadBalancedWebClientBuilder(){
 		final WebClient.Builder builder = WebClient.builder();
 		return builder;
