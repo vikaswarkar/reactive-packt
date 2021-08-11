@@ -3,7 +3,7 @@ app:
   eureka-username: user
   eureka-password: password
   auth-server: localhost
-
+  tenant-name: vw-dev.us.auth0.com
 server.port: 8443
 
 logging:
@@ -69,7 +69,8 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          jwk-set-uri: http://${app.auth-server}:9999/.well-known/jwks.json
+#          jwk-set-uri: http://${app.auth-server}:9999/.well-known/jwks.json
+          issuer-uri: https://${app.auth-server.tenant-name}/
 
 server:
   ssl:

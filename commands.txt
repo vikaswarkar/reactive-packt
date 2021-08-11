@@ -21,14 +21,29 @@ when prompted try writer/secret or reader/secret
 curl -k https://writer:secret@localhost:8443/oauth/token -d grant_type=password -d username=magnus -d password=password -s | jq .
 
 Implicit Grant Flow:
-https://localhost:8443/oauth/authorize?response_type=token&client_id=reader&redirect_uri=http://my.redirect.uri&scope=product:read&state=48532.
+    Local Auth Server
+    https://localhost:8443/oauth/authorize?response_type=token&client_id=reader&redirect_uri=http://my.redirect.uri&scope=product:read&state=48532.
+    Auth0
+    https://vw-dev.us.auth0.com/authorize?response_type=token&scope=openid email product:read product:write&client_id=B7uMVDUVOvfN4EsKcgdApQ2DUljXzJzy&state=98421&&nonce=jxdlsjfi0fa&redirect_uri=http://my.redirect.uri&audience=https://localhost:8443/product-composite
+    when prompted for credentials - enter user credentials
+    aarianwarkar@gmail.com;StrongPassword!
 
-http://my.redirect.uri/
-#access_token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtYWdudXMiLCJleHAiOjIyMjgzMTM0ODgsImF1dGhvcml0aWVzIjpbIlJPTEVfVVNFUiJdLCJqdGkiOiIyZWRjNzVjNy0wN2JiLTQ5N2EtYTI5OS1lMDVlYTY0NDcyNTMiLCJjbGllbnRfaWQiOiJyZWFkZXIiLCJzY29wZSI6WyJwcm9kdWN0OnJlYWQiXX0.eflbDyge6C0hjm3pj9hxPIft4hCGFGDOYM7e9I8bEOqcb_B3F3zDDBxyMo7djb86dIYNRHrmYZzDxJbMdmTZvib2VGkf48R9uNQyXnJvy7PP-CZI52qKgT_kudpD6wfVhPqPRMxjGm4EuaPvfIpuhIkI2SNwisemkYI6ml8XdPV5ao8iRSUBZJ6mXjWuKU0h2x6MucNwzNVL__PoDqMY5ANlqYx0qfhtYyZIXQqFNa8hHOPPv9Fkyi5Q3S8REXEPRbXVOvzJ3pWkG9jIvb6oenIfKxuNiQZ9Uq6vVuEBNPTsrNqWNsoNvnyUqJsaFqcKWsIQT8fGTUbbo8e74KlTMA
-&token_type=bearer
-&state=48532.
-&expires_in=599999999
-&jti=2edc75c7-07bb-497a-a299-e05ea6447253
+
+    from Auth0 server.
+    http://my.redirect.uri/#
+    access_token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlhsWDhwOVdDZUlrTkVqbVR2T2F4YyJ9.eyJpc3MiOiJodHRwczovL3Z3LWRldi51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjExM2Q0MTI5ZGI5YjMwMDY5NDQyOGQ1IiwiYXVkIjpbImh0dHBzOi8vbG9jYWxob3N0Ojg0NDMvcHJvZHVjdC1jb21wb3NpdGUiLCJodHRwczovL3Z3LWRldi51cy5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNjI4NzA3MjAwLCJleHAiOjE2Mjg3MTQ0MDAsImF6cCI6IkI3dU1WRFVWT3ZmTjRFc0tjZ2RBcFEyRFVsalh6Snp5Iiwic2NvcGUiOiJvcGVuaWQgZW1haWwgcHJvZHVjdDpyZWFkIHByb2R1Y3Q6d3JpdGUifQ.NY_b4Kj0RiHSKlwjZTzqwjXsk74VnABshh_ACX5KF-qO-ngK9jXI0EjWvZNvMVWPuRF6GRInhq4Z5tHJRDFQsR-dOKRnznZGzf3LEJh4niI8FviovpE8SdO5BYHIa3zPA14pspUolAYrL-Jf_o4C6iUu9H7Q12uoSPE8ha7oKkREI600jCEwIp9MYppLKRDUi7ATsBrf4KxW1UzI6vp0FxchRBqJLXO4iqRhH-hcAYP6daNQFPAUNTwbbeFw3SWvvxi6UdJEY5X4YX1V5O2Z8d1__bW6fFpYuXoPehRvhhDyZQE7gdwK98goB96sm3UmC6DqdeXu3rc62boQ7ijFiQ
+    &scope=openid%20email%20product%3Aread%20product%3Awrite
+    &expires_in=7200
+    &token_type=Bearer
+    &state=98421
+
+    from local Auth Server
+    http://my.redirect.uri/
+    #access_token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtYWdudXMiLCJleHAiOjIyMjgzMTM0ODgsImF1dGhvcml0aWVzIjpbIlJPTEVfVVNFUiJdLCJqdGkiOiIyZWRjNzVjNy0wN2JiLTQ5N2EtYTI5OS1lMDVlYTY0NDcyNTMiLCJjbGllbnRfaWQiOiJyZWFkZXIiLCJzY29wZSI6WyJwcm9kdWN0OnJlYWQiXX0.eflbDyge6C0hjm3pj9hxPIft4hCGFGDOYM7e9I8bEOqcb_B3F3zDDBxyMo7djb86dIYNRHrmYZzDxJbMdmTZvib2VGkf48R9uNQyXnJvy7PP-CZI52qKgT_kudpD6wfVhPqPRMxjGm4EuaPvfIpuhIkI2SNwisemkYI6ml8XdPV5ao8iRSUBZJ6mXjWuKU0h2x6MucNwzNVL__PoDqMY5ANlqYx0qfhtYyZIXQqFNa8hHOPPv9Fkyi5Q3S8REXEPRbXVOvzJ3pWkG9jIvb6oenIfKxuNiQZ9Uq6vVuEBNPTsrNqWNsoNvnyUqJsaFqcKWsIQT8fGTUbbo8e74KlTMA
+    &token_type=bearer
+    &state=48532.
+    &expires_in=599999999
+    &jti=2edc75c7-07bb-497a-a299-e05ea6447253
 
 https://localhost:8443/oauth/authorize?response_type=token&client_id=writer&redirect_uri=http://my.redirect.uri&scope=product:read+product:write&state=95372.
 
@@ -40,11 +55,39 @@ http://my.redirect.uri/#access_token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdW
 
 
 Authorization Code Grant Flow
-https://localhost:8443/oauth/authorize?response_type=code&client_id=reader&redirect_uri=http://my.redirect.uri&scope=product:read&state=35725.
+    Local Auth Server
+        https://localhost:8443/oauth/authorize?response_type=code&client_id=reader&redirect_uri=http://my.redirect.uri&scope=product:read&state=35725.
+
+    Auth0
+        https://vw-dev.us.auth0.com/authorize?audience=https://localhost:8443/product-composite&scope=openid email product:read product:write&response_type=code&client_id=B7uMVDUVOvfN4EsKcgdApQ2DUljXzJzy&redirect_uri=http://my.redirect.uri&state=845361
+    response back-->
+        http://my.redirect.uri/?code=PB8pCBXXV8Jc-ute&state=845361
+
+    curl --request POST \
+       --url 'https://${TENANT_DOMAIN_NAME}/oauth/token' \
+       --header 'content-type: application/json' \
+       --data '{"grant_type":"authorization_code","client_id": "${CLIENT_ID}","client_secret": "${CLIENT_SECRET}","code": "${CODE}","redirect_uri": "http://my.redirect.uri"}' -s | jq .
 
 curl -k https://reader:secret@localhost:8443/oauth/token \
  -d grant_type=authorization_code \
  -d client_id=reader \
  -d redirect_uri=http://my.redirect.uri \
  -d code=$CODE -s | jq .
+
+
+
+curl --request POST \
+  --url https://vw-dev.us.auth0.com/oauth/token \
+  --header 'content-type: application/json' \
+  --data '{
+              "client_id": "ziHF0CoAl5kBVuvVEm3k7watKCbaJDk1",
+              "client_secret": "kMnSCdmtCNXBM5S5ddvDjCskfF2AK4hm6RqVu9HRi0mOpggRMP5X5Qlx__yKSxEX",
+              "audience": "https://localhost:8443/product-composite",
+              "grant_type": "client_credentials"
+          }'
+
+
+find out more about the user
+    Use the Access token to get the information.
+    curl -H "Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlhsWDhwOVdDZUlrTkVqbVR2T2F4YyJ9.eyJpc3MiOiJodHRwczovL3Z3LWRldi51cy5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NjExM2Q0MTI5ZGI5YjMwMDY5NDQyOGQ1IiwiYXVkIjpbImh0dHBzOi8vbG9jYWxob3N0Ojg0NDMvcHJvZHVjdC1jb21wb3NpdGUiLCJodHRwczovL3Z3LWRldi51cy5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNjI4NzAyOTYyLCJleHAiOjE2Mjg3ODkzNjIsImF6cCI6IkI3dU1WRFVWT3ZmTjRFc0tjZ2RBcFEyRFVsalh6Snp5Iiwic2NvcGUiOiJvcGVuaWQgZW1haWwgcHJvZHVjdDpyZWFkIHByb2R1Y3Q6d3JpdGUiLCJndHkiOiJwYXNzd29yZCJ9.j2UBYGqS-JfCm4el_c6-4JpZ0uwyIDa4uV1xs9a4GzW07oRCAhPb-w7l1mTnfdc8-1PjlD0QfsAC6MP6gcd77tcHl22xQqxy1BnEGsit9tAw-n-Tu64h-yZKXIu396tqb22kR2DUIy9PY09f21pxEBtc2ZjrEmqlKSPtELHWLKWbcXhfur33TgBQk8rOYBW3jHjR4KkwdwqxOvAS1zGlxYt-laLO8L45YohBeX8Ij3lTOJZzxvivL8pywhxQTMuR0vYI5-8mUQLEmF6oxWEiluqhjjkqxEOkJJ08vj_bs8Nym_gokMG9RaDJXBYcVuByyq3Ks1VTMqP0rSJmJ7ofzw" https://vw-dev.us.auth0.com/userinfo -s | jq
 
