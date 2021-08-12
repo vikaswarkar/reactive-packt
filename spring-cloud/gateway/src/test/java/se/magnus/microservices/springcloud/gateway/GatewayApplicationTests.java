@@ -7,7 +7,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(properties = {"eureka.client.enabled=false",
-        "spring.main.allow-bean-definition-overriding=true"})
+        "spring.main.allow-bean-definition-overriding=true"},
+        classes = {GatewayApplication.class,TestSecurityConfig.class}
+)
 class GatewayApplicationTests {
 
     @Test

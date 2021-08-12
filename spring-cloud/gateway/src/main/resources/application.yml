@@ -2,8 +2,8 @@ app:
   eureka-server: localhost
   eureka-username: user
   eureka-password: password
-  auth-server: localhost
-  tenant-name: vw-dev.us.auth0.com
+#  auth-server: localhost
+  auth-server: vw-dev.us.auth0.com
 server.port: 8443
 
 logging:
@@ -40,7 +40,7 @@ spring:
         - id: product-composite
           uri: lb://product-composite
           predicates:
-            - Path=/reactive/product-composite/**
+            - Path=/product-composite/**
         - id: eureka-api
           uri: http://${app.eureka-server}:8761
           predicates:
@@ -60,7 +60,7 @@ spring:
         - id: product-actuator
           uri: lb://product/actuator/*
           predicates:
-            - Path=/reactive/product/actuator/**
+            - Path=/product/actuator/**
         - id: oauth-server
           uri: lb://auth-server
           predicates:
@@ -70,7 +70,7 @@ spring:
       resourceserver:
         jwt:
 #          jwk-set-uri: http://${app.auth-server}:9999/.well-known/jwks.json
-          issuer-uri: https://${app.auth-server.tenant-name}/
+          issuer-uri: https://${app.auth-server}/
 
 server:
   ssl:
@@ -94,4 +94,3 @@ app:
     host: review
     port: 8080
   eureka-server: eureka
-  auth-server: auth-server

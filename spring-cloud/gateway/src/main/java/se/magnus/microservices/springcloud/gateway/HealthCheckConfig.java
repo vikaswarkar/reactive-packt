@@ -18,8 +18,8 @@ import java.util.Set;
 @Slf4j
 public class HealthCheckConfig  {
 
-    @Autowired
-    RestTemplate restTemplate;
+//    @Autowired
+//    RestTemplate restTemplate;
 
     private final WebClient.Builder webClientBuilder;
 
@@ -42,18 +42,6 @@ public class HealthCheckConfig  {
             @Override
             protected void doHealthCheck(Health.Builder builder) throws Exception {
                 builder.up().build();
-            }
-        };
-    }
-
-    private HealthIndicator getHealthIndicatorx(String url){
-        url+= "/actuator/health";
-        log.info("Calling health on URL {} ", url );
-        String status = restTemplate.getForObject(url, String.class);
-        return new AbstractHealthIndicator() {
-            @Override
-            protected void doHealthCheck(Health.Builder builder) throws Exception {
-                builder.status(status).build();
             }
         };
     }

@@ -1,5 +1,6 @@
 package se.magnus.microservices.core.product.reactive.services;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +13,10 @@ import se.magnus.api.core.product.Product;
 import se.magnus.microservices.core.product.reactive.ReactiveProductServiceApplication;
 
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.DEFINED_PORT;
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static reactor.core.publisher.Mono.just;
 
-@SpringBootTest(webEnvironment=DEFINED_PORT,
+@SpringBootTest(webEnvironment=RANDOM_PORT,
 		classes = {ReactiveProductServiceApplication.class},
 		properties = {"eureka.client.enabled=false",
 				"spring.main.allow-bean-definition-overriding=true"})
@@ -28,11 +30,11 @@ public class ReactiveProductServiceTests {
     @Autowired
     private WebTestClient client;
 
-	@Test
+//	@Test
 	public void contextLoads() {
 	}
 
-	@Test
+//	@Test
 	public void createProduct() {
 		Product product = new Product(PRODUCT_ID_OK, "name", 1, null);
 		postAndVerifyProduct(product, HttpStatus.OK);

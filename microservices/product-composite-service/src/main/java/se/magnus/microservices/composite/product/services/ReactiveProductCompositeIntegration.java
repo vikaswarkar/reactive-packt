@@ -53,6 +53,10 @@ public class ReactiveProductCompositeIntegration
         productServiceUrl        = "http://" + productServiceHost + ":" + productServicePort + "/products/";
         recommendationServiceUrl = "http://" + recommendationServiceHost + ":" + recommendationServicePort + "/recommendations?productId=";
         reviewServiceUrl         = "http://" + reviewServiceHost + ":" + reviewServicePort + "/reviews?productId=";
+
+		String productServiceUrl = "http://product/products";
+		String recommendationServiceUrl = "http://recommendation/recommendations?productId=";
+		String reviewServiceUrl = "http://review/reviews?productId=";
     }
 
 	private WebClient getWebClient(){
