@@ -18,7 +18,7 @@ http://localhost:9999/.well-known/jwks.json
 http://localhost:9999/oauth/token?grant_type=pahttp://localhost:9999/oauth/token?grant_type=password&username=magnus&password=passwordssword&username=magnus&password=password
 when prompted try writer/secret or reader/secret
 
-curl -k https://writer:secret@localhost:8443/oauth/token -d grant_type=password -d username=magnus -d password=password -s | jq .
+curl -k https://writer:secret@localhost:443/oauth/token -d grant_type=password -d username=magnus -d password=password -s | jq .
 
 Implicit Grant Flow:
     Local Auth Server
