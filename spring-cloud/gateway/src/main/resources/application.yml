@@ -69,8 +69,9 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-#          jwk-set-uri: http://${app.auth-server}:9999/.well-known/jwks.json
-          issuer-uri: https://${app.auth-server}/
+          jwk-set-uri: http://${app.auth-server}:9999/.well-known/jwks.json
+#          jwk-set-uri: http://${app.auth-server}/.well-known/jwks.json
+#          issuer-uri: https://vw-dev.us.auth0.com/
 
 server:
   ssl:
@@ -94,3 +95,11 @@ app:
     host: review
     port: 8080
   eureka-server: eureka
+  auth-server: auth-server
+
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://${app.auth-server}:9999/.well-known/jwks.json

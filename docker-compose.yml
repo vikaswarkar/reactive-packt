@@ -87,8 +87,8 @@ services:
     build: spring-cloud/gateway
     mem_limit: 350m
     depends_on:
-      eureka:
-        condition: service_started
+      - eureka
+      - auth-server
     ports:
       - "443:8443"
 
@@ -97,3 +97,7 @@ services:
       - SPRING_PROFILES_ACTIVE=docker
     build: spring-cloud/authorization-server
     mem_limit: 350m
+    ports:
+      - "9999:9999"
+    depends_on:
+      - eureka
