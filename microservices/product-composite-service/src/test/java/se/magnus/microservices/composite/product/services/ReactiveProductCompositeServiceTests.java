@@ -34,7 +34,9 @@ import static reactor.core.publisher.Mono.just;
 
 @SpringBootTest(webEnvironment=DEFINED_PORT,
 		classes = {ReactiveProductCompositeServiceApplication.class, TestSecurityConfig.class},
-		properties = {"eureka.client.enabled=false", "spring.main.allow-bean-definition-overriding=true"})
+		properties = {"eureka.client.enabled=false",
+				"spring.main.allow-bean-definition-overriding=true",
+				"spring.cloud.config.enabled=false", "server.port=0"})
 @ExtendWith(SpringExtension.class)
 public class ReactiveProductCompositeServiceTests {
 

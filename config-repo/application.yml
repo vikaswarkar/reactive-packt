@@ -1,0 +1,57 @@
+app:
+  eureka-username: eureka-user
+  eureka-password: eureka-password
+  eureka-server: localhost
+  auth-server: localhost
+#  auth-server: vw-dev.us.auth0.com
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: "http://${app.eureka-username}:${app.eureka-password}@${app.eureka-server}:8761/eureka/"
+    intialInstanceInfoReplicationIntervalSeconds: 5
+    registryFetchIntervalSeconds: 5
+  instance:
+    leaseRenewalIntervalInSeconds: 5
+    leaseExpirationDurationInSeconds: 5
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+
+management.endpoint.health.show-details: "ALWAYS"
+management.endpoints.web.exposure.include: "*"
+
+server.port: ${PORT:0}
+
+#logging:
+#  level:
+#    root: INFO
+#    se.magnus: DEBUG
+#    org.springframework.data.mongodb.core: DEBUG
+#
+#spring:
+#  data:
+#    mongodb:
+#      auto-index-creation: true
+#      host: localhost
+#      port: 27017
+#      database: product-db
+#  application:
+#    name: product
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: docker
+
+#spring:
+#  data:
+#    mongodb:
+#      host: mongodb
+#
+#server:
+#  port: 8080
+
+  eureka-server: eureka
+  auth-server: auth-server
+app:

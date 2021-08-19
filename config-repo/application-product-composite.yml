@@ -48,8 +48,6 @@ get-composite-product:
       The implementation of the delete method is idempotent, i.e. it can be called several times with the same response.
       This means that a delete request of a non existing product will return <b>200 Ok</b>.
 
-
-
 server.port: ${PORT:0}
 #server.port: 8080
 
@@ -63,15 +61,6 @@ app:
   review-service:
     host: localhost
     port: 7003
-  eureka-server: localhost
-  eureka-username: user
-  eureka-password: password
-  auth-server: localhost
-#  auth-server: vw-dev.us.auth0.com
-
-spring:
-  application:
-    name: product-composite
 
   security:
     oauth2:
@@ -92,42 +81,3 @@ logging:
   level:
     root: INFO
     se.magnus: DEBUG
-
-management.endpoint.health.show-details: "ALWAYS"
-management.endpoints.web.exposure.include: "*"
-
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: "http://${app.eureka-username}:${app.eureka-password}@${app.eureka-server}:8761/eureka/"
-    initialInstanceInfoReplicationIntervalSeconds: 5
-    registryFetchIntervalSeconds: 5
-  instance:
-    leaseRenewalIntervalInSeconds: 5
-    leaseExpirationDurationInSeconds: 5
-    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
-
-ribbon.ServerListRefreshInterval: 5000
-
-ribbon.NFLoadBalancerPingInterval: 5
-
----
-
-spring.profiles: docker
-
-server:
-  port: 8080
-
-app:
-  product-service:
-    host: product
-    port: 8080
-  recommendation-service:
-    host: recommendation
-    port: 8080
-  review-service:
-    host: review
-    port: 8080
-  eureka-server: eureka
-  auth-server: auth-server
-

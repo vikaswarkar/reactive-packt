@@ -1,10 +1,11 @@
-app:
-  eureka-server: localhost
-  eureka-username: user
-  eureka-password: password
-#  auth-server: localhost
-  auth-server: vw-dev.us.auth0.com
 server.port: 8443
+
+server:
+  ssl:
+    key-alias: localhost
+    key-store: classpath:keystore/edge.p12
+    key-store-password: password
+    key-store-type: PKCS12
 
 logging:
   level:
@@ -15,17 +16,6 @@ logging:
 
 management.endpoint.health.show-details: "ALWAYS"
 management.endpoints.web.exposure.include: "*"
-
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: "http://${app.eureka-username}:${app.eureka-password}@${app.eureka-server}:8761/eureka/"
-    initialInstanceInfoReplicationIntervalSeconds: 5
-    registryFetchIntervalSeconds: 5
-  instance:
-    leaseRenewalIntervalInSeconds: 5
-    leaseExpirationDurationInSeconds: 5
-    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
 
 ribbon.ServerListRefreshInterval: 5000
 
@@ -65,6 +55,13 @@ spring:
           uri: lb://auth-server
           predicates:
             - Path=/oauth/**
+        - id: config-server
+          uri: http://${app.config-server}:8888
+          predicates:
+            - Path=/config/**
+          filters:
+            - RewritePath=/config/(?<segment>.*), /$\{segment}
+
   security:
     oauth2:
       resourceserver:
@@ -72,34 +69,3 @@ spring:
           jwk-set-uri: http://${app.auth-server}:9999/.well-known/jwks.json
 #          jwk-set-uri: http://${app.auth-server}/.well-known/jwks.json
 #          issuer-uri: https://vw-dev.us.auth0.com/
-
-server:
-  ssl:
-    key-alias: localhost
-    key-store: classpath:keystore/edge.p12
-    key-store-password: password
-    key-store-type: PKCS12
-
----
-
-spring.profiles: docker
-  
-app:
-  product-service:
-    host: product
-    port: 8080
-  recommendation-service:
-    host: recommendation 
-    port: 8080
-  review-service:
-    host: review
-    port: 8080
-  eureka-server: eureka
-  auth-server: auth-server
-
-spring:
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          jwk-set-uri: http://${app.auth-server}:9999/.well-known/jwks.json

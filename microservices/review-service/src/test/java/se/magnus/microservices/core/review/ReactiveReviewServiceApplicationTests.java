@@ -7,6 +7,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.PropertySources;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -25,7 +27,7 @@ import static reactor.core.publisher.Mono.just;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = WebEnvironment.DEFINED_PORT,
 		properties = {"spring.datasource.url=jdbc:h2:mem:review-db",
-				"eureka.client.enabled=false"})
+				"eureka.client.enabled=false", "spring.cloud.config.enabled=false", "server.port=0"})
 @Slf4j
 public class ReactiveReviewServiceApplicationTests {
 

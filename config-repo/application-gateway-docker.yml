@@ -1,0 +1,19 @@
+app:
+  product-service:
+    host: product
+    port: 8080
+  recommendation-service:
+    host: recommendation 
+    port: 8080
+  review-service:
+    host: review
+    port: 8080
+  eureka-server: eureka
+  auth-server: auth-server
+
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://${app.auth-server}:9999/.well-known/jwks.json

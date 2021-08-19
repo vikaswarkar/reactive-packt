@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @ExtendWith(SpringExtension.class)
-@DataMongoTest
+@DataMongoTest(properties = {"spring.cloud.config.enabled=false"})
 @Slf4j
 public class ReactiveRecommendationRepositoryTests {
 

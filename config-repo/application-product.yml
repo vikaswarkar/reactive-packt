@@ -1,0 +1,7 @@
+server.port: ${PORT:0}
+
+logging:
+  level:
+    root: INFO
+    se.magnus: DEBUG
+    org.springframework.data.mongodb.core: DEBUG
